@@ -1,0 +1,67 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+
+
+.fclaro{
+    background-color: #1E213A;
+}
+
+.foscuro{
+    background-color: #100E1D;
+    padding-inline: 80px;
+}
+
+#temphoy{
+    font-size: 70px !important;
+}
+
+button{
+    background-color: #6E707A;
+    color: #E7E7EB !important;
+    border-radius: 0 !important;
+    font-size: 11px !important;
+}
+
+
+.circulo{
+    display: block !important;
+    width: 25px !important;
+    height: 25px !important;
+    border-radius: 50% !important;
+    padding: 0px !important;
+}
+
+.numeros{
+    color: #E7E7EB !important;
+}
+
+.texto{
+    color: #A09FB1 !important;
+}
+
+#img-tiempo{
+    width: 70%;
+}
+#btn-medida{
+    font-size: 6px !important;
+}
+
+.caja-semana{
+    font-size: 11px;
+}
+
+.cajas{
+    background-color: #1e213A;
+    text-align: center;
+    box-shadow: 0px 0px 2px #444;
+    padding: 0px;
+}
+
+h3{
+    font-size: 14px !important;
+    font-weight: bold;
+}
