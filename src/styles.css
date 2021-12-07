@@ -5,7 +5,6 @@
 
 }
 
-
 .fclaro{
     background-color: #1E213A;
 }
@@ -44,7 +43,7 @@ button{
 }
 
 #img-tiempo{
-    width: 70%;
+    width: 60%;
 }
 #btn-medida{
     font-size: 6px !important;
