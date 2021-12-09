@@ -7,7 +7,7 @@ const obtenerClimaCoordenadas = async(coor) => {
 
     const latitud = await coor.lat;
     const longitud = await coor.lon;
-    const resp = await fetch((`${url}lat=${coor.lat}&lon=${coor.lon}&appid=${apiKey}&units=metric`));
+    const resp = await fetch((`${url}lat=${coor.lat}&lon=${coor.lon}&lang=es&appid=${apiKey}&units=metric`));
     return await resp.json();
 
     
@@ -16,7 +16,7 @@ const obtenerClimaCoordenadas = async(coor) => {
 //Funcion que entrega el clima de hoy, entregando el nombre de la ciudad:
 const obtenerClimaCiudad = async(ciudad) => {
 
-    const resp = await fetch((`${url}q=${ciudad}&appid=${apiKey}&units=metric`));
+    const resp = await fetch((`${url}q=${ciudad}&lang=es&appid=${apiKey}&units=metric`));
     return await resp.json();
     
 };
