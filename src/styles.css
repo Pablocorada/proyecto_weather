@@ -5,6 +5,17 @@
 
 }
 
+#cargando{
+    height: 100vh;
+}
+
+#spinner{
+    position: absolute;
+    text-align: center !important;
+    height: 100vh !important;
+    line-height: 100vh !important;
+}
+
 .fclaro{
     background-color: #1E213A;
 }
@@ -14,24 +25,41 @@
     padding-inline: 80px;
 }
 
+#lateral-info{
+    transition: all 1000ms !important;
+    display: block;
+}
+
+#lateral-buscar{
+    transition: all 1000ms !important;
+    position: absolute;
+    left: -80%;
+}
+
 #temphoy{
     font-size: 70px !important;
 }
 
 button{
-    background-color: #6E707A;
+    background-color: #5b5d63 !important;
     color: #E7E7EB !important;
-    border-radius: 0 !important;
+    border-radius: 1 !important;
     font-size: 11px !important;
 }
 
 
 .circulo{
     display: block !important;
-    width: 25px !important;
-    height: 25px !important;
+    width: 35px !important;
+    height: 35px !important;
     border-radius: 50% !important;
     padding: 0px !important;
+    margin: 0px auto;
+}
+
+#ubicacion-actual{
+    line-height: 43px;
+    
 }
 
 .numeros{

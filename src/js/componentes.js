@@ -58,11 +58,12 @@ const obtenerFecha = (fechaUnix) => {
 //Funcion ubicacion actual
 const ubicacionActual = (objetoClima) => {
 
-    return primeraLetraMayuscula(objetoClima.name);
+    const ciudadPais = [primeraLetraMayuscula(objetoClima.name),primeraLetraMayuscula(objetoClima.sys.country)];
+    return ciudadPais;
 }
 
 //Funcion cajas diarias (fecha,icono y temperatura): Crea las cajas de los proximos 5 dias
-const cajasDiarias = async(objetoClima) => {
+const cajasDiarias = async(objetoClima,sistema) => {
 
     let climaDia = await objetoClima.daily[0];
     let textoFecha = '';
@@ -91,11 +92,16 @@ const cajasDiarias = async(objetoClima) => {
 
         const tempMax = await obtenerTempMax(climaDia);
         const tempMin = await obtenerTempMin(climaDia);
-        
+        const btnCelsius = document.querySelector('#btn-celsius');
+        if(sistema === 'imperial'){
+            sistema = 'ºF';
+        }else{
+            sistema = 'ºC';
+        }
         const caja = `
             <p class="mb-0 mt-2">${textoFecha}</p>
             <img src="${imgClima}" alt="" class="p-3 p-sm-2 w-100">
-            <p class="mb-2 mt-3"><span>${tempMin}ºC</span>-<span>${tempMax}ºC</span></p>
+            <p class="mb-2 mt-3"><span>${tempMin}${sistema}</span>-<span>${tempMax}${sistema}</span></p>
         `;
 
         const divCajas = document.createElement('div');

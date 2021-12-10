@@ -3,15 +3,10 @@ import './styles.css';
 import * as tiempoHoy from './js/tiempoHoy';
 import * as tiempoCuatroDias from './js/tiempoCuatroDias'
 import {coordenadasActual} from './js/coordenadas'
+import * as eventos from './js/eventos';
 
 
-coordenadasActual().then(data => {
-    tiempoCuatroDias.obtenerClimaCoordenadas(data).then(clima => {
-        tiempoCuatroDias.obtenerClimaDia(clima,0).then(climaDia => {
-            tiempoCuatroDias.obtenerFecha(climaDia.dt).then(console.log);
-        });
-    });
-}); 
+eventos.init();
 
 
 /* console.log(latitud);

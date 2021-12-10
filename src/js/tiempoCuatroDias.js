@@ -3,18 +3,25 @@ const apiKey = 'bac26ca03139d229749784cf2ecb4276';
 
 
 //Funcion que entrega el clima de los proximos 7 dias, entregando las coordenadas:
-const obtenerClimaCoordenadas = async(coor) => {
+const obtenerClimaCoordenadas = async(coor,sistema='metric') => {
 
-    const resp = await fetch((`${url}lat=${coor.lat}&lon=${coor.lon}&appid=${apiKey}&units=metric`));
+    const resp = await fetch((`${url}lat=${coor.lat}&lon=${coor.lon}&appid=${apiKey}&units=${sistema}`));
     return await resp.json();
    
 };
 
 //Funcion que entrega el clima de los proximos 7 dias, entregando el nombre de la ciudad:
-const obtenerClimaCiudad = async(ciudad) => {
+const obtenerCoordCiudad = async(objetoClima) => {
 
-    const resp = await fetch((`${url}q=${ciudad}&appid=${apiKey}&units=metric`));
-    console.log(resp);
+    const coords = [await objetoClima.coord.lat, await objetoClima.coord.lon];
+    return coords;
+}
+
+const obtenerClimaCiudad = async(coordCiudad,sistema='metric') => {
+
+    const lat = coordCiudad[0];
+    const lon = coordCiudad[1];
+    const resp = await fetch((`${url}lat=${lat}&lon=${lon}&appid=${apiKey}&units=${sistema}`));
     return await resp.json();
     
 };
@@ -51,7 +58,8 @@ export{
     obtenerTempMin,
     obtenerTempMax,
     obtenerClimaDia,
-    obtenerFecha
+    obtenerFecha,
+    obtenerCoordCiudad
 }
 
 
