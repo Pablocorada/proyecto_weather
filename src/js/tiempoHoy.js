@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime'
 
 const url = `http://api.openweathermap.org/data/2.5/weather?`;
 const apiKey = 'bac26ca03139d229749784cf2ecb4276';
@@ -59,7 +60,7 @@ const obtenerVisibilidad = async(objetoClima) => {
 
 const obtenerVelViento = async(objetoClima) => {
 
-    const velocidad = await `${((objetoClima.wind.speed)*3.6).toFixed(1)}`;
+    const velocidad = `${((await objetoClima.wind.speed)*3.6).toFixed(1)} `;
     return velocidad;
 };
 

@@ -12,6 +12,10 @@ module.exports = {
         clean: true,
         filename: 'main.[contenthash].js',
     },
+    entry: [
+        "regenerator-runtime/runtime.js", 
+        "./src/index.js"
+    ],
     module: {
         rules: [
             {

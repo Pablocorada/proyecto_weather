@@ -1,5 +1,5 @@
 import { obtenerTempMax, obtenerTempMin } from "./tiempoCuatroDias";
-
+import 'regenerator-runtime/runtime';
 
 //Funcion cambiar imagen: recibe la descripcion del clima
 const cambiarImagen = async(objetoClima) => {
@@ -70,11 +70,14 @@ const cajasDiarias = async(objetoClima,sistema) => {
     const hoy = new Date();
     let mañana = new Date(hoy);
     mañana.setDate(mañana.getDate() + 1);
-    console.log(mañana)
     
     const contenedorCajas = document.querySelector('#contenedor-cajas');
 
-    console.log (objetoClima);
+    if(sistema === 'imperial'){
+        sistema = 'ºF';
+    }else{
+        sistema = 'ºC';
+    }
     
     for(let i=1;i<6;i++){
         
@@ -93,11 +96,7 @@ const cajasDiarias = async(objetoClima,sistema) => {
         const tempMax = await obtenerTempMax(climaDia);
         const tempMin = await obtenerTempMin(climaDia);
         const btnCelsius = document.querySelector('#btn-celsius');
-        if(sistema === 'imperial'){
-            sistema = 'ºF';
-        }else{
-            sistema = 'ºC';
-        }
+        
         const caja = `
             <p class="mb-0 mt-2">${textoFecha}</p>
             <img src="${imgClima}" alt="" class="p-3 p-sm-2 w-100">

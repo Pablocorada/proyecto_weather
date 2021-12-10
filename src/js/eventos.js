@@ -2,9 +2,12 @@ import * as componentes from './componentes';
 import * as tiempoHoy from './tiempoHoy';
 import * as tiempoCuatroDias from './tiempoCuatroDias';
 import * as coordenadas from './coordenadas';
+import 'regenerator-runtime/runtime'
 
+//Variables globales:
 let ciudadBuscar = '';
-let paramSistema = '';
+let paramSistema = 'metric';
+
 //Funcion cambio de localizacion (hacer visible la ventana de busqueda)
 
 const eventoLocalizacion = () => {
@@ -13,7 +16,7 @@ const eventoLocalizacion = () => {
     
     const lateralInfo = document.getElementById('lateral-info');
     const lateralBuscar = document.getElementById('lateral-buscar');
-
+    const btnCerrarLocalizacion = document.getElementById('cerrar-localizacion');
 
     btnLocalizacion.addEventListener('click', () => {
         lateralInfo.style.display = 'none';
@@ -21,20 +24,60 @@ const eventoLocalizacion = () => {
         lateralBuscar.style.left = '0%';
     });
 
-    eventoCambiarLocalizacion();
+    btnCerrarLocalizacion.addEventListener('click', () => {
+        lateralInfo.style.display = 'block';
+        lateralBuscar.style.position = 'absolute';
+        lateralBuscar.style.left = '-100%';
+    });
 };
+
+//Lista de últimas ciudad buscadas con LocalStorage
+const agregarHistorialALS = (ciudad) => {
+
+    localStorage.setItem(localStorage.length,ciudad);
+    if(localStorage.length>=6){
+        localStorage.removeItem('1')
+    }     
+}
+
+const agregarLSAHistorial = () => {
+
+    let listaCiudades = [];        
+    for(let i=localStorage.length;i>0;i--){
+        listaCiudades[localStorage.length-i] = localStorage.getItem(i-1);
+    }
+
+    const ciudades = document.querySelector('#ciudades');
+    for(let ciudad of listaCiudades){
+
+        const pCiudad = document.createElement('p');
+        pCiudad.classList = 'texto';
+        pCiudad.innerHTML = ciudad;
+        ciudades.appendChild(pCiudad);
+    }
+}
 
 
 //Evento cambiarLocalizacion (cambiar la url por la url de la ciudad escogida y luego volver a init())
-const eventoCambiarLocalizacion = () => {
+const eventoCambiarLocalizacion = async() => {
 
     const inputCiudad = document.querySelector('#buscar-ubicacion');
     const btnBuscar = document.querySelector('#btnBuscar');
-    btnBuscar.addEventListener('click',() => {
+    btnBuscar.addEventListener('click',async () => {
 
         ciudadBuscar = inputCiudad.value;
         
-        init(ciudadBuscar,paramSistema);
+        await init(ciudadBuscar,paramSistema);
+        agregarHistorialALS(ciudadBuscar);
+    });
+
+    inputCiudad.addEventListener("keydown", async(e) => {
+        if (e.keyCode === 13) {
+            ciudadBuscar = inputCiudad.value;
+        
+            await init(ciudadBuscar,paramSistema);
+            agregarHistorialALS(ciudadBuscar);
+        }
     });
 }
 
@@ -44,6 +87,7 @@ const eventoLocalizacionActual = () => {
     const btnLocActual = document.querySelector('#ubicacion-actual');
     btnLocActual.addEventListener('click',() => {
         
+        ciudadBuscar = 'actual';
         init('actual',paramSistema);
     });
 }
@@ -53,35 +97,30 @@ const cambioSistema = () => {
 
     let btnFar = document.querySelector('#btn-far');
     let btnCelsius = document.querySelector('#btn-celsius');
+    
     btnFar.addEventListener('click',async() => {
         paramSistema = 'imperial';
-        if(ciudadBuscar!==''){
-            
-            await init(ciudadBuscar,paramSistema);
-            btnFar = document.querySelector('#btn-far');
-            btnCelsius = document.querySelector('#btn-celsius');
-            btnFar.classList.add('disabled');
-            btnCelsius.classList.remove('disabled');
+        if(ciudadBuscar!==''){            
+            await init(ciudadBuscar,paramSistema);            
         }else{
             await init('actual',paramSistema);
-            btnFar = document.querySelector('#btn-far');
-            btnCelsius = document.querySelector('#btn-celsius');
-            btnFar.classList.add('disabled');
-            btnCelsius.classList.remove('disabled');
         }
+        btnFar = document.querySelector('#btn-far');
+        btnCelsius = document.querySelector('#btn-celsius');        
+        btnFar.classList.add('disabled');
+        btnCelsius.classList.remove('disabled');        
     });
-    btnCelsius.addEventListener('click',() => {
+    btnCelsius.addEventListener('click',async() => {
         paramSistema = 'metric';
         if(ciudadBuscar!==''){
-            init(ciudadBuscar);
-            btnCelsius.classList.add('disabled');
-            btnFar.classList.remove('disabled');  
-        }else{
-            
-            init('actual');
-            btnCelsius.classList.add('disabled');
-            btnFar.classList.remove('disabled');  
-        }      
+            await init(ciudadBuscar);            
+        }else{            
+            await init('actual');
+        }  
+        btnFar = document.querySelector('#btn-far');
+        btnCelsius = document.querySelector('#btn-celsius');                
+        btnCelsius.classList.add('disabled');
+        btnFar.classList.remove('disabled');                 
     });
 
 
@@ -132,32 +171,39 @@ const init = async(ciudad='actual',celFar) => {
     body.removeChild(spinner);
 
    
+    console.log(objetoClima)
     // Insertar contenido principal    
     const htmlMain = `
         <div id="main">
             <div class="row w-100">
                 <div class="col-12 col-sm-3 col-md-4 pt-2 fclaro" >
-                    <div id="lateral-buscar" >
-                        <div>
-                            <div class="input-group w-75 mx-auto mb-5 mt-5">
-                                <input type="text" class="form-control" id="buscar-ubicacion" placeholder="Buscar ubicación" aria-label="Buscar ubicación" aria-describedby="button-addon2">
-                                <button class="btn btn-secondary" type="button" id="btnBuscar">Buscar</button>
+                    <div id="lateral-buscar" class="fclaro">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end">
+                                <button type="button" class="btn-close btn-close-white text-end" aria-label="Close" id="cerrar-localizacion"></button>
                             </div>
+                            <div class="col-12 input-group w-75 mx-auto mb-5 mt-4">
+                                <input type="text" class="form-control" id="buscar-ubicacion" placeholder="Buscar ubicación" aria-label="Buscar ubicación" aria-describedby="button-addon2">
+                                <button class="btn btn-gris" type="button" id="btnBuscar">Buscar</button>
+                            </div>
+                            <div class="col-12 w-75 mx-auto mt-4" id="ciudades"></div>
                         </div>
                     </div>
                     <div id="lateral-info">
                         <div class="row mt-4 d-flex justify-content-between wrap mx-3">
                             <div class="col-6">
-                                <button class="btn btn-secondary shadow-sm p-2 px-3" id="localizacion">Localización</button>
+                                <button class="btn btn-gris shadow-sm p-2 px-3" id="localizacion">Localización</button>
                             </div>
                             <div class="col-3 d-flex d-sm-block d-md-flex justify-content-end">
-                                <button class="btn btn-secondary shadow-sm circulo" id="ubicacion-actual" title="Mi ubicación"><span class="material-icons fs-5">my_location</span></button>
+                                <button class="btn btn-gris shadow-sm circulo" id="ubicacion-actual" title="Mi ubicación"><span class="material-icons fs-5">my_location</span></button>
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <img src="" alt="tiempo" class="my-5 mx-auto"
-                                id="img-tiempo">
-
+                            <div id="fondo-nubes">
+                                <div class="col-12 d-flex justify-content-center">
+                                    <img src="" alt="tiempo" class="my-5 mx-auto" id="img-tiempo">                    
+                                </div>                        
+                            </div>
                         </div>
                         <div class="row">
                             <p class="text-center numeros"><span class="numeros" id="temphoy"></span><span class="fs-5" id="celsius-far"></span></p>
@@ -175,10 +221,10 @@ const init = async(ciudad='actual',celFar) => {
                     <div class="row  d-flex justify-content-end " id="btn-medida">
                         <div class="col-8"></div>
                         <div class="col-2">
-                            <button class="btn disabled circulo" id="btn-celsius">ºC</button>
+                            <button class="btn btn-gris disabled circulo" id="btn-celsius">ºC</button>
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-secondary circulo" id="btn-far">
+                            <button class="btn btn-gris circulo" id="btn-far">
                                 <span>ºF</span>
                             </button>
                         </div>
@@ -236,13 +282,15 @@ const init = async(ciudad='actual',celFar) => {
     await componentes.cajasDiarias(objetoClimaDias,celFar);
     
     // Insertar velocidad del viento 
+    let sistVelViento = document.querySelector('#sist-vel');
+    let velViento = document.querySelector('#vel-viento');
     const highlights = document.querySelector('#highlights');
     const vientoHtml = `
-        <p>
-            Wind status
+        <p class="mt-2">
+            Dirección y velocidad del viento
         </p>
         <p>
-            <span class="fs-1">${await tiempoHoy.obtenerVelViento(objetoClima)}</span>km/h
+            <span class="fs-1" id="vel-viento">${await tiempoHoy.obtenerVelViento(objetoClima)}</span><span id="sist-vel">km/h</span>
         </p>
         <p>
             ${await tiempoHoy.obtenerDirViento(objetoClima)};
@@ -252,6 +300,16 @@ const init = async(ciudad='actual',celFar) => {
     divViento.classList = 'col-12 col-sm-5 mb-4 p-2 pb-0 text-center cajas';
     divViento.innerHTML = vientoHtml;
     highlights.appendChild(divViento);
+
+    if(paramSistema==='metric'){
+        sistVelViento = document.querySelector('#sist-vel');
+        sistVelViento.innerHTML = 'km/h';  
+    }else if(paramSistema==='imperial'){
+        sistVelViento = document.querySelector('#sist-vel');
+        velViento = document.querySelector('#vel-viento');
+        sistVelViento.innerHTML = 'millas/h';
+        velViento.innerHTML = (velViento.innerHTML/3.6).toFixed(1);
+    }
 
     // Insertar humedad
     const humedadHtml = `
@@ -300,6 +358,8 @@ const init = async(ciudad='actual',celFar) => {
     eventoLocalizacion();
     eventoLocalizacionActual();
     cambioSistema();
+    eventoCambiarLocalizacion();
+    agregarLSAHistorial();
        
     
 }
@@ -308,5 +368,6 @@ const init = async(ciudad='actual',celFar) => {
 export{
     eventoLocalizacion,
     cambioSistema,
+    eventoCambiarLocalizacion,
     init
 }
