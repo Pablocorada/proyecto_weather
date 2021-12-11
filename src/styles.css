@@ -137,7 +137,16 @@ h3{
         border: none;
     }
 
-    .cajas:nth-child(2),.cajas:nth-child(4){
+    .cajas:first-child{
+        width: 100%;
+        font-size: 16px !important;
+        border-top: 1px solid #adadad !important;
+        border-right: none;
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+
+    .cajas:nth-child(3),.cajas:nth-child(5){
         border: none;
     }
   }
