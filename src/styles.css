@@ -127,3 +127,17 @@ h3{
       width: 95vw;
     }
   }
+
+  @media (max-width: 576px) {
+    .highligths{
+        border: none;
+        border-bottom: 1px solid #adadad !important;
+    }
+    .highligths:last-child{
+        border: none;
+    }
+
+    .cajas:nth-child(2),.cajas:nth-child(4){
+        border: none;
+    }
+  }

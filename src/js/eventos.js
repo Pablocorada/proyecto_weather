@@ -243,7 +243,7 @@ const init = async(ciudad='actual',celFar) => {
                     <div id="lateral-buscar" class="fclaro pt-2 px-3">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
-                                <button type="button" class="btn-close btn-close-white text-end" aria-label="Close" id="cerrar-localizacion"></button>
+                                <button type="button" class="btn-close btn-close text-end" aria-label="Close" id="cerrar-localizacion"></button>
                             </div>
                             <div class="col-12 input-group w-75 mx-auto mb-5 mt-4">
                                 <input type="text" class="form-control" id="buscar-ubicacion" placeholder="Buscar ubicación" aria-label="Buscar ubicación" aria-describedby="button-addon2">
