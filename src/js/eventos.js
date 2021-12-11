@@ -5,7 +5,7 @@ import * as coordenadas from './coordenadas';
 import 'regenerator-runtime/runtime'
 
 //Variables globales:
-let ciudadBuscar = '';
+let ciudadBuscar = 'actual';
 let paramSistema = 'metric';
 
 //Funcion cambio de localizacion (hacer visible la ventana de busqueda)
@@ -20,14 +20,16 @@ const eventoLocalizacion = () => {
 
     btnLocalizacion.addEventListener('click', () => {
         lateralInfo.style.display = 'none';
-        lateralBuscar.style.position = 'relative';
+        lateralBuscar.style.position = 'relative'; 
         lateralBuscar.style.left = '0%';
     });
 
     btnCerrarLocalizacion.addEventListener('click', () => {
-        lateralInfo.style.display = 'block';
-        lateralBuscar.style.position = 'absolute';
+        
         lateralBuscar.style.left = '-100%';
+        lateralBuscar.style.position = 'absolute';
+        lateralInfo.style.display = 'block';          
+        
     });
 };
 
@@ -36,8 +38,21 @@ const agregarHistorialALS = (ciudad) => {
 
     localStorage.setItem(localStorage.length,ciudad);
     if(localStorage.length>=6){
-        localStorage.removeItem('1')
-    }     
+        localStorage.removeItem('0')
+
+        let listaCiudades = [];        
+        for(let i=0;i<localStorage.length;i++){
+            listaCiudades[i] = localStorage.getItem(i+1);
+        };
+
+        localStorage.clear();
+
+        for(let i=0;i<listaCiudades.length;i++){
+             localStorage.setItem(i,listaCiudades[i]);
+        };
+    };
+
+    
 }
 
 const agregarLSAHistorial = () => {
@@ -49,12 +64,23 @@ const agregarLSAHistorial = () => {
 
     const ciudades = document.querySelector('#ciudades');
     for(let ciudad of listaCiudades){
-
-        const pCiudad = document.createElement('p');
-        pCiudad.classList = 'texto';
-        pCiudad.innerHTML = ciudad;
-        ciudades.appendChild(pCiudad);
+        ciudad = componentes.primeraLetraMayuscula(ciudad);
+        const btnCiudad = `
+           <button type="button" class="btn btn-outline-secondary w-100 mx-auto mb-2 text-start texto btn-ciudad">${ciudad}</button>        
+        `;
+        const divCiudad = document.createElement('div');
+        divCiudad.innerHTML = btnCiudad;
+        ciudades.appendChild(divCiudad);
     }
+}
+
+//Evento cerrar alerta de error de búsqueda de ciudad
+const eventoCerrarAlerta = async(alertaCiudad) => {
+    const btnCerrarAlerta = document.querySelector('#btn-cerrar-alerta');
+    btnCerrarAlerta.addEventListener('click', async() => {
+        alertaCiudad.classList.add('visually-hidden');
+        await init(ciudadBuscar,paramSistema);        
+    });
 }
 
 
@@ -63,22 +89,55 @@ const eventoCambiarLocalizacion = async() => {
 
     const inputCiudad = document.querySelector('#buscar-ubicacion');
     const btnBuscar = document.querySelector('#btnBuscar');
+    const btnCiudad = document.querySelectorAll('.btn-ciudad');
+    let alertaCiudad = document.querySelector('#alerta-ciudad');
+
     btnBuscar.addEventListener('click',async () => {
 
-        ciudadBuscar = inputCiudad.value;
+        let nuevaCiudadBuscar = inputCiudad.value;
         
-        await init(ciudadBuscar,paramSistema);
-        agregarHistorialALS(ciudadBuscar);
+        agregarHistorialALS(nuevaCiudadBuscar);
+        try{
+            await init(nuevaCiudadBuscar,paramSistema);
+            ciudadBuscar = nuevaCiudadBuscar;
+        }catch(error){
+            console.log(error);                
+            localStorage.removeItem(localStorage.length-1);
+            alertaCiudad = document.querySelector('#alerta-ciudad');
+            alertaCiudad.classList.remove('visually-hidden');
+            eventoCerrarAlerta(alertaCiudad);
+        }
+        
     });
 
     inputCiudad.addEventListener("keydown", async(e) => {
         if (e.keyCode === 13) {
-            ciudadBuscar = inputCiudad.value;
+            let nuevaCiudadBuscar = inputCiudad.value;
         
-            await init(ciudadBuscar,paramSistema);
-            agregarHistorialALS(ciudadBuscar);
+            agregarHistorialALS(nuevaCiudadBuscar);
+            try{
+                await init(nuevaCiudadBuscar,paramSistema);
+                ciudadBuscar = nuevaCiudadBuscar;
+            }catch(error){
+                console.log(error);                
+                localStorage.removeItem(localStorage.length-1);
+                alertaCiudad = document.querySelector('#alerta-ciudad');
+                alertaCiudad.classList.remove('visually-hidden');
+                eventoCerrarAlerta(alertaCiudad);
+            }
+            
         }
     });
+
+    btnCiudad.forEach((boton => {
+        
+        boton.addEventListener('click',async () => {
+    
+            ciudadBuscar = boton.innerHTML;
+            
+            await init(ciudadBuscar,paramSistema);
+        });
+    }))
 }
 
 //Funcion cambio a localizaacion actual
@@ -135,7 +194,11 @@ const init = async(ciudad='actual',celFar) => {
     if(!spinner){
         const divSpinner = `
             <div id="cargando">
-                <div class="row w-100 h-100">
+                <div class="row vw-100 vh-100">
+                    <div class="alert alert-warning alert-dismissible fade show visually-hidden fixed-top w-100" role="alert" id="alerta-ciudad">
+                        <strong>¡Cuidado!</strong> La ciudad ingresada no se encuentra en nuestra base de datos ¡Inténtalo de nuevo!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="btn-cerrar-alerta"></button>
+                    </div>
                     <div id="spinner">
                         <div class="spinner-border text-info" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -175,9 +238,9 @@ const init = async(ciudad='actual',celFar) => {
     // Insertar contenido principal    
     const htmlMain = `
         <div id="main">
-            <div class="row w-100">
-                <div class="col-12 col-sm-3 col-md-4 pt-2 fclaro" >
-                    <div id="lateral-buscar" class="fclaro">
+            <div class="row">
+                <div class="col-12 col-md-4 fclaro pe-0" >
+                    <div id="lateral-buscar" class="fclaro pt-2 px-3">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
                                 <button type="button" class="btn-close btn-close-white text-end" aria-label="Close" id="cerrar-localizacion"></button>
@@ -189,35 +252,33 @@ const init = async(ciudad='actual',celFar) => {
                             <div class="col-12 w-75 mx-auto mt-4" id="ciudades"></div>
                         </div>
                     </div>
-                    <div id="lateral-info">
+                    <div id="lateral-info" class="pt-2 pe-0">
                         <div class="row mt-4 d-flex justify-content-between wrap mx-3">
                             <div class="col-6">
-                                <button class="btn btn-gris shadow-sm p-2 px-3" id="localizacion">Localización</button>
+                                <button class="btn btn-gris shadow-sm p-2 px-3 ms-3 ms-md-2" id="localizacion">Localización</button>
                             </div>
                             <div class="col-3 d-flex d-sm-block d-md-flex justify-content-end">
                                 <button class="btn btn-gris shadow-sm circulo" id="ubicacion-actual" title="Mi ubicación"><span class="material-icons fs-5">my_location</span></button>
                             </div>
                         </div>
-                        <div class="row mt-4">
-                            <div id="fondo-nubes">
+                        <div class="row mt-4 ancho-fclaro">
                                 <div class="col-12 d-flex justify-content-center">
-                                    <img src="" alt="tiempo" class="my-5 mx-auto" id="img-tiempo">                    
-                                </div>                        
-                            </div>
+                                    <img src="" alt="tiempo" class="my-3 mx-auto" id="img-tiempo">                    
+                                </div>      
                         </div>
-                        <div class="row">
-                            <p class="text-center numeros"><span class="numeros" id="temphoy"></span><span class="fs-5" id="celsius-far"></span></p>
+                        <div class="row ancho-fclaro">
+                            <p class="text-center numeros pe-0"><span class="numeros" id="temphoy"></span><span class="fs-5" id="celsius-far"></span></p>
                         </div>
-                        <div class="row">
+                        <div class="row ancho-fclaro">
                             <p class="fs-6 text-center texto" id="descripcion-clima"></p>
                         </div>
-                        <div class="row">
+                        <div class="row ancho-fclaro">
                             <p class="fs-6 text-center texto" id="fecha-hoy"></p>
                             <p class="fs-6 text-center texto" id="ubicacion"></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-9 col-md-8 foscuro p-5 pt-3">
+                <div class="col-12 col-md-8 foscuro p-5 pt-3 pb-0">
                     <div class="row  d-flex justify-content-end " id="btn-medida">
                         <div class="col-8"></div>
                         <div class="col-2">
@@ -233,7 +294,7 @@ const init = async(ciudad='actual',celFar) => {
                         
                     </div>
                     <h3 class="mt-4 texto">Today's Hightlights</h3>
-                    <div class="row mt-3 mb-4 texto justify-content-between" id="highlights">
+                    <div class="row mt-3 mb-4 texto justify-content-between d-flex" id="highlights">
 
                     </div>
 
@@ -286,18 +347,18 @@ const init = async(ciudad='actual',celFar) => {
     let velViento = document.querySelector('#vel-viento');
     const highlights = document.querySelector('#highlights');
     const vientoHtml = `
-        <p class="mt-2">
+        <p class="mt-1 mb-1">
             Dirección y velocidad del viento
         </p>
-        <p>
+        <p class="mb-1">
             <span class="fs-1" id="vel-viento">${await tiempoHoy.obtenerVelViento(objetoClima)}</span><span id="sist-vel">km/h</span>
         </p>
-        <p>
+        <p class="fs-4 mb-1">
             ${await tiempoHoy.obtenerDirViento(objetoClima)};
         </p>
     `;
     const divViento = document.createElement('div');
-    divViento.classList = 'col-12 col-sm-5 mb-4 p-2 pb-0 text-center cajas';
+    divViento.classList = 'col-12 col-sm-5 mb-4 p-1 text-center cajas';
     divViento.innerHTML = vientoHtml;
     highlights.appendChild(divViento);
 
@@ -313,15 +374,15 @@ const init = async(ciudad='actual',celFar) => {
 
     // Insertar humedad
     const humedadHtml = `
-        <p>
+        <p class="pt-1 pt-md-2 mb-1">
             Humedad
         </p>
-        <p>
+        <p mb-1>
             <span class="fs-1">${await tiempoHoy.obtenerHumedad(objetoClima)}</span>%
         </p>
     `;
     const divHumedad = document.createElement('div');
-    divHumedad.classList = 'col-12 col-sm-5 mb-4 p-2 pb-0 text-center cajas pt-4';
+    divHumedad.classList = 'col-12 col-sm-5 mb-4 p-1 text-center cajas pt-3';
     divHumedad.innerHTML = humedadHtml;
     highlights.appendChild(divHumedad);
 
@@ -335,7 +396,7 @@ const init = async(ciudad='actual',celFar) => {
         </p>
     `;
     const divVisibilidad = document.createElement('div');
-    divVisibilidad.classList = 'col-12 col-sm-5 mb-4 p-2 pb-0 text-center cajas';
+    divVisibilidad.classList = 'col-12 col-sm-5 mb-2 p-2 text-center cajas';
     divVisibilidad.innerHTML = visibilidadHtml;
     highlights.appendChild(divVisibilidad);
 
@@ -349,7 +410,7 @@ const init = async(ciudad='actual',celFar) => {
      </p>
     `;
     const divPresion = document.createElement('div');
-    divPresion.classList = 'col-12 col-sm-5 mb-4 p-2 pb-0 text-center cajas';
+    divPresion.classList = 'col-12 col-sm-5 mb-2 p-2 text-center cajas';
     divPresion.innerHTML = presionHtml;
     highlights.appendChild(divPresion);
     // ****************
@@ -357,10 +418,9 @@ const init = async(ciudad='actual',celFar) => {
     //Eventos;
     eventoLocalizacion();
     eventoLocalizacionActual();
-    cambioSistema();
-    eventoCambiarLocalizacion();
+    cambioSistema();    
     agregarLSAHistorial();
-       
+    eventoCambiarLocalizacion();      
     
 }
 

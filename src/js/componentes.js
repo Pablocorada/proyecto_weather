@@ -105,7 +105,7 @@ const cajasDiarias = async(objetoClima,sistema) => {
 
         const divCajas = document.createElement('div');
         divCajas.innerHTML = caja;
-        divCajas.classList = 'col-5 col-sm-2 mb-5 mb-sm-0 cajas';
+        divCajas.classList = 'col-5 col-sm-2 mb-5 mb-sm-0 pb-1 cajas';
         contenedorCajas.append(divCajas);
     }    
     
@@ -122,5 +122,6 @@ export{
     cambiarImagen,
     obtenerFecha,
     ubicacionActual,
-    descripcionClima
+    descripcionClima,
+    primeraLetraMayuscula
 }
