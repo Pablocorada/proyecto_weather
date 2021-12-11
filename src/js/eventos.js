@@ -216,12 +216,12 @@ const init = async(ciudad='actual',celFar) => {
 
      // Cargar contenido pagina
     
-    const coordActual = await coordenadas.coordenadasActual();
-    
+    let coordActual;
     let objetoClima = {};
     let objetoClimaDias = {};
 
     if(ciudad==='actual'){
+        coordActual = await coordenadas.coordenadasActual();
         objetoClima = await tiempoHoy.obtenerClimaCoordenadas(coordActual,celFar);
         objetoClimaDias = await tiempoCuatroDias.obtenerClimaCoordenadas(coordActual,celFar);
     }else{
@@ -239,7 +239,7 @@ const init = async(ciudad='actual',celFar) => {
     const htmlMain = `
         <div id="main">
             <div class="row">
-                <div class="col-12 col-md-4 fclaro pe-0" >
+                <div class="col-12 col-md-4 fclaro pe-0" id="lateral-izq">
                     <div id="lateral-buscar" class="fclaro pt-2 px-3">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
@@ -293,7 +293,7 @@ const init = async(ciudad='actual',celFar) => {
                     <div class="row d-flex justify-content-between mt-3 caja-semana texto" id="contenedor-cajas">
                         
                     </div>
-                    <h3 class="mt-4 texto">Today's Hightlights</h3>
+                    <h3 class="mt-4 d-flex texto">Today's Hightlights</h3>
                     <div class="row mt-3 mb-4 texto justify-content-between d-flex" id="highlights">
 
                     </div>
@@ -358,7 +358,7 @@ const init = async(ciudad='actual',celFar) => {
         </p>
     `;
     const divViento = document.createElement('div');
-    divViento.classList = 'col-12 col-sm-5 mb-4 p-1 text-center cajas';
+    divViento.classList = 'col-12 col-sm-5 p-1 flex-fill text-center cajas highligths';
     divViento.innerHTML = vientoHtml;
     highlights.appendChild(divViento);
 
@@ -382,7 +382,7 @@ const init = async(ciudad='actual',celFar) => {
         </p>
     `;
     const divHumedad = document.createElement('div');
-    divHumedad.classList = 'col-12 col-sm-5 mb-4 p-1 text-center cajas pt-3';
+    divHumedad.classList = 'col-12 col-sm-5 p-1 flex-fill text-center cajas pt-3 highligths';
     divHumedad.innerHTML = humedadHtml;
     highlights.appendChild(divHumedad);
 
@@ -396,7 +396,7 @@ const init = async(ciudad='actual',celFar) => {
         </p>
     `;
     const divVisibilidad = document.createElement('div');
-    divVisibilidad.classList = 'col-12 col-sm-5 mb-2 p-2 text-center cajas';
+    divVisibilidad.classList = 'col-12 col-sm-5 p-2 pt-3 flex-fill text-center cajas highligths';
     divVisibilidad.innerHTML = visibilidadHtml;
     highlights.appendChild(divVisibilidad);
 
@@ -410,7 +410,7 @@ const init = async(ciudad='actual',celFar) => {
      </p>
     `;
     const divPresion = document.createElement('div');
-    divPresion.classList = 'col-12 col-sm-5 mb-2 p-2 text-center cajas';
+    divPresion.classList = 'col-12 col-sm-5 p-2 pt-3 flex-fill text-center cajas highligths';
     divPresion.innerHTML = presionHtml;
     highlights.appendChild(divPresion);
     // ****************

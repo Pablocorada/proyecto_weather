@@ -19,8 +19,7 @@ body{
 }
 
 .fclaro{
-    background-image: linear-gradient(#3f4579, #1b1833);   
-}
+    background-color: rgb(212, 212, 212);}
 
 .ancho-fclaro{
     padding-right: 0px !important;
@@ -28,23 +27,21 @@ body{
 }
 
 .foscuro{
-    background-color: #1b1833;
+    background-color: rgb(212, 212, 212);
     padding-inline: 80px;
 }
 
-/* 
-#fondo-nubes{
-    background-image: url('./assets/img/Cloud-background.png') !important;
-    width: 50%;
-} */
+#lateral-izq{
+    border-right: 1px solid #adadad;
+}
 
 #lateral-buscar{    
     display: block;
-    width: calc(98vw/3);
+    width: calc(97vw/3);
     position: absolute;
     left: -120%;
     height: 100vh !important;
-    background-color: #1E213A;
+    
     transition: all 1300ms !important;
 }
 
@@ -54,15 +51,15 @@ body{
 }
 
 .btn-gris{
-    background-color: #5b5d63 !important;
-    color: #E7E7EB !important;
+    background-color: #c5c4c4 !important;
+    color: #3d3d3d !important;
     font-size: 11px !important;
     box-shadow: inset 0px 0px 1px rgba(168, 168, 168, 0.4) !important;
 }
 
 .btn-gris:hover{
-    box-shadow: inset 0px 0px 4px rgba(82, 82, 82, 0.8) !important;
-    background-color: #5e6066 !important;
+    box-shadow: inset 0px 0px 1px rgba(151, 151, 151, 1) !important;
+    background-color: #cfcdcd !important;
 
 }
 
@@ -82,11 +79,11 @@ body{
 }
 
 .numeros{
-    color: #E7E7EB !important;
+    color: #000000 !important;
 }
 
 .texto{
-    color: #b8b8c5 !important;
+    color: #000000 !important;
 }
 
 #img-tiempo{
@@ -101,10 +98,23 @@ body{
 }
 
 .cajas{
-    background: linear-gradient(#3f4579, #17192c);
+    background-color: rgb(212, 212, 212);   
+    border-right: 1px solid #adadad;
     text-align: center;
-    box-shadow: inset 0px 0px 1px rgba(177, 177, 177, 0.2);
     padding: 0px;
+}
+
+.cajas:last-child{
+    border: none;
+}
+
+.highligths:first-child{
+    border-bottom: 1px solid #adadad;
+}
+
+.highligths:nth-child(2){
+    border-right: none;
+    border-bottom: 1px solid #adadad;
 }
 
 h3{
