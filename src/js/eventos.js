@@ -216,12 +216,13 @@ const init = async(ciudad='actual',celFar) => {
 
      // Cargar contenido pagina
     
-    const coordActual = await coordenadas.coordenadasActual();
+    let coordActual;
     
     let objetoClima = {};
     let objetoClimaDias = {};
 
     if(ciudad==='actual'){
+        coordActual = await coordenadas.coordenadasActual();
         objetoClima = await tiempoHoy.obtenerClimaCoordenadas(coordActual,celFar);
         objetoClimaDias = await tiempoCuatroDias.obtenerClimaCoordenadas(coordActual,celFar);
     }else{
