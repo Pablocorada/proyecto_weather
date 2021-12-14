@@ -19,7 +19,7 @@ body{
 }
 
 #fondo-claro{
-    height: 100vh !important;
+    height: 100% !important;
 
     background-position: center;
     background-repeat: no-repeat; 
