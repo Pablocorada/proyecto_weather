@@ -1,6 +1,6 @@
 import 'regenerator-runtime/runtime'
 
-const url = `http://api.openweathermap.org/data/2.5/weather?`;
+const url = `https://api.openweathermap.org/data/2.5/weather?`;
 const apiKey = 'bac26ca03139d229749784cf2ecb4276';
 
 //Funcion que entrega el clima de hoy, entregando las coordenadas:
