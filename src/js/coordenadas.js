@@ -10,6 +10,8 @@ export let coordenadasActual = async() => {
                 const coor = {lat:posicion.coords.latitude,lon:posicion.coords.longitude};
                 resolve(coor);
             });   
+        }else{
+            alert('El navegador no soporta la geolocalización')
         }
         
     })

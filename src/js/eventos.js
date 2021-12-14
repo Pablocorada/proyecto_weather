@@ -59,14 +59,16 @@ const agregarLSAHistorial = () => {
 
     let listaCiudades = [];        
     for(let i=localStorage.length;i>0;i--){
-        listaCiudades[localStorage.length-i] = localStorage.getItem(i-1);
+        if(listaCiudades.includes(listaCiudades[localStorage.length-i]) === false){
+            listaCiudades[localStorage.length-i] = localStorage.getItem(i-1);
+        }
     }
 
     const ciudades = document.querySelector('#ciudades');
     for(let ciudad of listaCiudades){
         ciudad = componentes.primeraLetraMayuscula(ciudad);
         const btnCiudad = `
-           <button type="button" class="btn btn-outline-secondary w-100 mx-auto mb-2 text-start texto btn-ciudad">${ciudad}</button>        
+           <button type="button" class="btn btn-outline-dark w-100 mx-auto mb-2 text-start texto-oscuro btn-ciudad">${ciudad}</button>        
         `;
         const divCiudad = document.createElement('div');
         divCiudad.innerHTML = btnCiudad;
@@ -225,9 +227,11 @@ const init = async(ciudad='actual',celFar) => {
         coordActual = await coordenadas.coordenadasActual();
         objetoClima = await tiempoHoy.obtenerClimaCoordenadas(coordActual,celFar);
         objetoClimaDias = await tiempoCuatroDias.obtenerClimaCoordenadas(coordActual,celFar);
+        
     }else{
         objetoClima = await tiempoHoy.obtenerClimaCiudad(ciudad,celFar);
         objetoClimaDias = await tiempoCuatroDias.obtenerClimaCiudad(await tiempoCuatroDias.obtenerCoordCiudad(objetoClima),celFar);
+        
     }
 
     // Eliminar spinner        
@@ -240,11 +244,11 @@ const init = async(ciudad='actual',celFar) => {
     const htmlMain = `
         <div id="main">
             <div class="row">
-                <div class="col-12 col-md-4 fclaro pe-0" >
-                    <div id="lateral-buscar" class="fclaro pt-2 px-3">
+                <div class="col-12 col-md-4 fclima pe-0" id="fondo-claro">
+                    <div id="lateral-buscar" class="pt-2 px-3">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
-                                <button type="button" class="btn-close btn-close-white text-end" aria-label="Close" id="cerrar-localizacion"></button>
+                                <button type="button" class="btn-close btn-close text-end" aria-label="Close" id="cerrar-localizacion"></button>
                             </div>
                             <div class="col-12 input-group w-75 mx-auto mb-5 mt-4">
                                 <input type="text" class="form-control" id="buscar-ubicacion" placeholder="Buscar ubicación" aria-label="Buscar ubicación" aria-describedby="button-addon2">
@@ -267,15 +271,15 @@ const init = async(ciudad='actual',celFar) => {
                                     <img src="" alt="tiempo" class="my-3 mx-auto" id="img-tiempo">                    
                                 </div>      
                         </div>
-                        <div class="row ancho-fclaro">
-                            <p class="text-center numeros pe-0"><span class="numeros" id="temphoy"></span><span class="fs-5" id="celsius-far"></span></p>
+                        <div class="row ancho-fclaro" id="div-temp-hoy">
+                            <p class="text-center numeros-oscuro pe-0"><span class="numeros-oscuro" id="temphoy"></span><span class="fs-4 negritas" id="celsius-far"></span></p>
+                        </div>
+                        <div class="row ancho-fclaro mb-4">
+                            <p class="fs-6 text-center texto-oscuro negritas" id="descripcion-clima"></p>
                         </div>
                         <div class="row ancho-fclaro">
-                            <p class="fs-6 text-center texto" id="descripcion-clima"></p>
-                        </div>
-                        <div class="row ancho-fclaro">
-                            <p class="fs-6 text-center texto" id="fecha-hoy"></p>
-                            <p class="fs-6 text-center texto" id="ubicacion"></p>
+                            <p class="fs-6 text-center texto-oscuro" id="fecha-hoy"></p>
+                            <p class="fs-6 text-center texto-oscuro" id="ubicacion"></p>
                         </div>
                     </div>
                 </div>
@@ -294,7 +298,7 @@ const init = async(ciudad='actual',celFar) => {
                     <div class="row d-flex justify-content-between mt-3 caja-semana texto" id="contenedor-cajas">
                         
                     </div>
-                    <h3 class="mt-4 texto">Today's Hightlights</h3>
+                    <h3 class="mt-4 texto">Condiciones actuales</h3>
                     <div class="row mt-3 mb-4 texto justify-content-between d-flex" id="highlights">
 
                     </div>
@@ -307,7 +311,12 @@ const init = async(ciudad='actual',celFar) => {
 
     // Insertar imagen principal
     const imgHtml = document.querySelector('#img-tiempo');
-    imgHtml.src = await componentes.cambiarImagen(objetoClima);
+    const img = await componentes.cambiarImagen(objetoClima);
+    imgHtml.src = img[0];
+
+    //Insertar fondo segun clima
+    const fondo = document.querySelector('#fondo-claro');
+    fondo.style.backgroundImage = `url(${img[1]})`;
 
     // Insertar temperatura actual
     const tempHoy = document.querySelector('#temphoy');

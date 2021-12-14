@@ -4,14 +4,27 @@ import 'regenerator-runtime/runtime';
 //Funcion cambiar imagen: recibe la descripcion del clima
 const cambiarImagen = async(objetoClima) => {
 
-    const idImg = await objetoClima.weather[0].icon;
-    return `http://openweathermap.org/img/wn/${idImg}@2x.png`;
+    const idImg = await objetoClima.weather[0].id;
+
+    const icono = idImg == 804 ? ['./assets/img/HeavyCloud.png','./assets/img/muchas-nubes.png'] :
+    idImg == 803 ? ['./assets/img/HeavyCloud.png','./assets/img/muchas-nubes.png'] :
+    idImg == 802 ? ['./assets/img/LightCloud.png','./assets/img/pocas-nubes.jpg'] :
+    idImg == 801 ? ['./assets/img/LightCloud.png','./assets/img/pocas-nubes.jpg'] :
+    idImg == 800 ? ['./assets/img/Clear.png','./assets/img/Despejado.jpg'] :
+    idImg >= 700 ? ['./assets/img/HeavyCloud.png','./assets/img/neblina.jpg'] :
+    idImg >= 600 ? ['./assets/img/Snow.png','./assets/img/nieve.jpg'] :
+    idImg >= 520 ? ['./assets/img/HeavyRain.png','./assets/img/lluvia.jpg'] :
+    idImg == 511 ? ['./assets/img/Hail.png','./assets/img/granizo.jpg'] :
+    idImg >= 500 ? ['./assets/img/Shower.png','./assets/img/lluvia-suave.jpg'] :
+    idImg >= 300 ? ['./assets/img/HeavyRain.png','./assets/img/lluvia.jpg'] :
+    idImg >= 200 ? ['./assets/img/Thunderstorm.png','./assets/img/tormenta.jpg'] : '';
+    
+    return icono;
     
 }
 
 //Funcion descripcion clima actual (Lluvia,nieve, etc)
 const descripcionClima = (objetoClima) => {
-
     
     return primeraLetraMayuscula(objetoClima.weather[0].description);
 }
@@ -99,7 +112,7 @@ const cajasDiarias = async(objetoClima,sistema) => {
         
         const caja = `
             <p class="mb-0 mt-2">${textoFecha}</p>
-            <img src="${imgClima}" alt="" class="p-3 p-sm-2 w-100">
+            <img src="${imgClima[0]}" alt="" class="p-3 ps-0 m-1 p-sm-2 w-75 iconos-cajas">
             <p class="mb-2 mt-3"><span>${tempMin}${sistema}</span>-<span>${tempMax}${sistema}</span></p>
         `;
 
