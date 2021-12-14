@@ -22,12 +22,11 @@ body{
     background-position: center;
     background-repeat: no-repeat; 
     background-size: cover;
-    height: 100vh !important;
 }
 
 #lateral-buscar,#lateral-info{
     background-color: rgba(255, 255, 255, 0.35) !important;
-    height: 100vh !important;
+    height: 100%;
 }
 
 .fclaro{
@@ -42,7 +41,6 @@ body{
 .foscuro{
     background-color: #1a1633;
     padding-inline: 80px;
-    height: 100vh !important;
 }
 
 /* 
@@ -167,8 +165,5 @@ h3{
     }
     #lateral-buscar,#fondo-claro{
         height: 100vh;
-    }
-    .foscuro{
-        height: auto;
     }
   }
