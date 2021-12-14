@@ -42,6 +42,7 @@ body{
 .foscuro{
     background-color: #1a1633;
     padding-inline: 80px;
+    height: 100vh !important;
 }
 
 /* 
@@ -166,5 +167,8 @@ h3{
     }
     #lateral-buscar,#fondo-claro{
         height: 100vh;
+    }
+    .foscuro{
+        height: auto;
     }
   }
