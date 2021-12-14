@@ -98,6 +98,10 @@ body{
     
 }
 
+#mi-ubicacion{
+    line-height: 33px;
+}
+
 .negritas{
     font-weight: bold;
 }
@@ -163,7 +167,7 @@ h3{
     .cajas:last-child{
         margin-top: 15px;
     }
-    #lateral-buscar,#fondo-claro{
+    #lateral-buscar,#fondo-claro,#lateral-info{
         height: 100vh;
     }
   }

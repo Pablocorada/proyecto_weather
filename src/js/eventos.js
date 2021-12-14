@@ -263,7 +263,7 @@ const init = async(ciudad='actual',celFar) => {
                                 <button class="btn btn-gris shadow-sm p-2 px-3 ms-3 ms-md-2" id="localizacion">Localización</button>
                             </div>
                             <div class="col-3 d-flex d-sm-block d-md-flex justify-content-end">
-                                <button class="btn btn-gris shadow-sm circulo" id="ubicacion-actual" title="Mi ubicación"><span class="material-icons fs-5">my_location</span></button>
+                                <button class="btn btn-gris shadow-sm circulo" id="ubicacion-actual" title="Mi ubicación"><span class="material-icons fs-5" id="mi-ubicacion">my_location</span></button>
                             </div>
                         </div>
                         <div class="row mt-4 ancho-fclaro">
