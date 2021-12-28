@@ -299,7 +299,7 @@ const init = async(ciudad='actual',celFar) => {
                         
                     </div>
                     <h3 class="mt-4 texto  mt-xl-5">Condiciones actuales</h3>
-                    <div class="row mt-3 mb-4 texto justify-content-between align-items-center d-flex" id="highlights">
+                    <div class="row mt-3 mb-4 texto justify-content-between align-items-center d-flex " id="highlights">
 
                     </div>
 
