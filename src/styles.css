@@ -140,6 +140,15 @@ body{
     border-radius: 15px;
     box-shadow: inset 0px 0px 1px rgba(177, 177, 177, 0.2);
     padding: 0px;
+    min-height: 180px;
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
 }
 
 

@@ -242,8 +242,8 @@ const init = async(ciudad='actual',celFar) => {
     console.log(objetoClima)
     // Insertar contenido principal    
     const htmlMain = `
-        <div id="main">
-            <div class="row">
+        <div id="main" class="vh-100">
+            <div class="row vh-100 vw-100">
                 <div class="col-12 col-md-4 fclima pe-0" id="fondo-claro">
                     <div id="lateral-buscar" class="pt-2 px-3">
                         <div class="row">
@@ -257,7 +257,7 @@ const init = async(ciudad='actual',celFar) => {
                             <div class="col-12 w-75 mx-auto mt-4" id="ciudades"></div>
                         </div>
                     </div>
-                    <div id="lateral-info" class="pt-2 pe-0">
+                    <div id="lateral-info" class="pt-2 pe-0 pt-md-5">
                         <div class="row mt-4 d-flex justify-content-between wrap mx-3">
                             <div class="col-6">
                                 <button class="btn btn-gris shadow-sm p-2 px-3 ms-3 ms-md-2" id="localizacion">Localización</button>
@@ -283,7 +283,7 @@ const init = async(ciudad='actual',celFar) => {
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-8 foscuro p-5 pt-3 pb-0">
+                <div class="col-12 col-md-8 foscuro p-5 pt-3 pb-0 pt-md-5">
                     <div class="row  d-flex justify-content-end " id="btn-medida">
                         <div class="col-8"></div>
                         <div class="col-2">
@@ -295,11 +295,11 @@ const init = async(ciudad='actual',celFar) => {
                             </button>
                         </div>
                     </div>
-                    <div class="row d-flex justify-content-between mt-3 caja-semana texto" id="contenedor-cajas">
+                    <div class="row d-flex justify-content-between mt-3 caja-semana texto  mt-xl-5" id="contenedor-cajas">
                         
                     </div>
-                    <h3 class="mt-4 texto">Condiciones actuales</h3>
-                    <div class="row mt-3 mb-4 texto justify-content-between d-flex" id="highlights">
+                    <h3 class="mt-4 texto  mt-xl-5">Condiciones actuales</h3>
+                    <div class="row mt-3 mb-4 texto justify-content-between align-items-center d-flex" id="highlights">
 
                     </div>
 
