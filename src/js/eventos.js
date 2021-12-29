@@ -243,7 +243,7 @@ const init = async(ciudad='actual',celFar) => {
     // Insertar contenido principal    
     const htmlMain = `
         <div id="main" class="vh-100">
-            <div class="row vh-100 vw-100">
+            <div class="row vh-100">
                 <div class="col-12 col-md-4 fclima pe-0" id="fondo-claro">
                     <div id="lateral-buscar" class="pt-2 px-3">
                         <div class="row">
@@ -257,7 +257,7 @@ const init = async(ciudad='actual',celFar) => {
                             <div class="col-12 w-75 mx-auto mt-4" id="ciudades"></div>
                         </div>
                     </div>
-                    <div id="lateral-info" class="pt-2 pe-0 pt-md-5">
+                    <div id="lateral-info" class="pt-2 pe-0 pt-md-5 w-100">
                         <div class="row mt-4 d-flex justify-content-between wrap mx-3">
                             <div class="col-6">
                                 <button class="btn btn-gris shadow-sm p-2 px-3 ms-3 ms-md-2" id="localizacion">Localización</button>
