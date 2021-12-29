@@ -195,7 +195,7 @@ const init = async(ciudad='actual',celFar) => {
 
     if(!spinner){
         const divSpinner = `
-            <div id="cargando">
+            <div id="cargando" class="vh-100">
                 <div class="row vh-100">
                     <div class="alert alert-warning alert-dismissible fade show visually-hidden fixed-top w-100" role="alert" id="alerta-ciudad">
                         <strong>¡Cuidado!</strong> La ciudad ingresada no se encuentra en nuestra base de datos ¡Inténtalo de nuevo!

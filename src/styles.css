@@ -177,6 +177,12 @@ h3{
         margin-top: 15px;
     }
     #lateral-buscar,#fondo-claro,#lateral-info{
-        height: 100vh;
+        height: 100vh;        
+    }
+    #lateral-buscar{
+        width: 100vw;
+    }
+    #cargando{
+        width: 100vh !important;
     }
   }
