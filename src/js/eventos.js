@@ -245,28 +245,28 @@ const init = async(ciudad='actual',celFar) => {
         <div id="main" class="vh-100">
             <div class="row vh-100">
                 <div class="col-12 col-md-4 fclima pe-0" id="fondo-claro">
-                    <div id="lateral-buscar" class="pt-2 px-3">
+                    <div id="lateral-buscar" class="pt-4 pt-md-5 px-3">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-end">
                                 <button type="button" class="btn-close btn-close text-end" aria-label="Close" id="cerrar-localizacion"></button>
                             </div>
-                            <div class="col-12 input-group w-75 mx-auto mb-5 mt-4">
+                            <div class="col-12 input-group w-75 mx-auto mb-5">
                                 <input type="text" class="form-control" id="buscar-ubicacion" placeholder="Buscar ubicación" aria-label="Buscar ubicación" aria-describedby="button-addon2">
-                                <button class="btn btn-gris" type="button" id="btnBuscar">Buscar</button>
+                                <button class="btn btn-primary" type="button" id="btnBuscar">Buscar</button>
                             </div>
                             <div class="col-12 w-75 mx-auto mt-4" id="ciudades"></div>
                         </div>
                     </div>
-                    <div id="lateral-info" class="pt-2 pe-0 pt-md-5 w-100">
-                        <div class="row mt-4 d-flex justify-content-between wrap mx-3">
+                    <div id="lateral-info" class="pt-4 pe-0 pt-md-5 w-100">
+                        <div class="row mt-4 d-flex justify-content-between wrap mx-3 mb-2">
                             <div class="col-6">
-                                <button class="btn btn-gris shadow-sm p-2 px-3 ms-3 ms-md-2" id="localizacion">Localización</button>
+                                <button class="btn btn-azul shadow-sm p-2 px-3 ms-3 ms-md-2" id="localizacion">Localización</button>
                             </div>
                             <div class="col-3 d-flex d-sm-block d-md-flex justify-content-end">
-                                <button class="btn btn-gris shadow-sm circulo" id="ubicacion-actual" title="Mi ubicación"><span class="material-icons fs-5" id="mi-ubicacion">my_location</span></button>
+                                <button class="btn btn-azul circulo d-flex justify-content-center align-items-center text-center" id="ubicacion-actual" title="Mi ubicación"><span class="material-icons fs-5" id="mi-ubicacion">my_location</span></button>
                             </div>
                         </div>
-                        <div class="row mt-4 ancho-fclaro">
+                        <div class="row mt-5 ancho-fclaro">
                                 <div class="col-12 d-flex justify-content-center">
                                     <img src="" alt="tiempo" class="my-3 mx-auto" id="img-tiempo">                    
                                 </div>      

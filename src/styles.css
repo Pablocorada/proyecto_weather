@@ -9,6 +9,7 @@ body{
 
 #cargando{
     height: 100vh;
+    z-index: 3;
 }
 
 #spinner{
@@ -16,6 +17,7 @@ body{
     text-align: center !important;
     height: 100vh !important;
     line-height: 100vh !important;
+    z-index: 4;
 }
 
 #fondo-claro{
@@ -41,6 +43,7 @@ body{
 .foscuro{
     background-color: #1a1633;
     padding-inline: 80px;
+    z-index: 2;
 }
 
 /* 
@@ -54,7 +57,7 @@ body{
     width: calc(99vw/3);
     position: absolute;
     left: -120%;
-    background: none !important;
+    z-index: 1;
     transition: all 1300ms !important;
 }
 
@@ -70,36 +73,61 @@ body{
 
 }
 
-.btn-gris{
-    background-color: #1b1833 !important;
+.btn-azul{
+    background: linear-gradient(#3f4579, #2b2f50) !important;
     color: #E7E7EB !important;
     font-size: 11px !important;
-    box-shadow: inset 0px 0px 1px rgba(168, 168, 168, 0.4) !important;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: all 500ms;
+}
+
+.btn-azul:hover{
+    border: 1px solid #1b1833;
+    background: transparent !important;
+    color: #1b1833 !important;
+    transform: scale(1.2);
+}
+
+.btn-gris{
+    background: linear-gradient(#3f4579, #2b2f50) !important;
+    color: #E7E7EB !important;
+    font-size: 11px !important;
+    font-weight: bold;
+    transition: all 200ms;
 }
 
 .btn-gris:hover{
-    box-shadow: inset 0px 0px 4px rgba(82, 82, 82, 0.8) !important;
-    background-color: #5e6066 !important;
+    box-shadow: 0px 0px 1px #41498d inset !important;
+    font-weight: bold !important;
+}
 
+.btn-primary{
+    background: linear-gradient(#3f4579, #2b2f50) !important;
+}
+
+.btn-primary:hover{
+    box-shadow: 0px 0px 3px #5761b9 inset !important;
 }
 
 
 .circulo{
-    display: block !important;
     width: 35px !important;
     height: 35px !important;
     border-radius: 50% !important;
     padding: 0px !important;
-    margin: 0px auto;
+    margin: auto;
 }
 
-#ubicacion-actual{
-    line-height: 43px;
-    
+input{
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-#mi-ubicacion{
-    line-height: 33px;
+#ubicacion-actual:hover{
+    padding-left: 1px !important;
+    padding-bottom: 0px !important;
 }
 
 .negritas{
