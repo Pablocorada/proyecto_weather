@@ -97,7 +97,6 @@ const cajasDiarias = async(objetoClima,sistema) => {
         climaDia = await objetoClima.daily[i];
 
         let fechaDia = new Date(climaDia.dt*1000);
-        console.log(fechaDia)
         if(fechaDia.getDay() === mañana.getDay()){
             textoFecha = 'Mañana';
         }else{

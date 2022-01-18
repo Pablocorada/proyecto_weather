@@ -64,6 +64,7 @@ const agregarLSAHistorial = () => {
         }
     }
 
+
     const ciudades = document.querySelector('#ciudades');
     for(let ciudad of listaCiudades){
         ciudad = componentes.primeraLetraMayuscula(ciudad);
@@ -238,8 +239,6 @@ const init = async(ciudad='actual',celFar) => {
     spinner = document.querySelector('#cargando');
     body.removeChild(spinner);
 
-   
-    console.log(objetoClima)
     // Insertar contenido principal    
     const htmlMain = `
         <div id="main" class="vh-100">
